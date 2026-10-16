@@ -10,6 +10,7 @@ import {fileURLToPath} from 'node:url';
 import {getConfiguration} from './pegasus.ts';
 import {loadEnvironment} from './project.ts';
 import {createImportServer} from './server.ts';
+import {getBrowserArguments, shouldOpenBrowser} from './browser.ts';
 
 const require = createRequire(import.meta.url);
 declare const RELEASE_BUILD: boolean;
@@ -22,7 +23,7 @@ const main = async (): Promise<void> => {
   if (!/^\d+$/.test(portText) || Number(portText) < 1 || Number(portText) > 65535) {
     throw new Error('IMPORTER_PORT must be a number between 1 and 65535.');
   }
-  const openBrowser = process.argv.includes('--open');
+  const openBrowser = shouldOpenBrowser(process.argv.slice(2), releaseBuild);
   const url = `http://127.0.0.1:${portText}`;
   const script = releaseBuild ? await readFile(new URL('../web/app.js', import.meta.url)) : (await (await import('esbuild')).build({
     entryPoints: [fileURLToPath(new URL('../web/app.ts', import.meta.url))],
@@ -66,17 +67,20 @@ const main = async (): Promise<void> => {
       path.join(process.env.ProgramFiles || 'C:/Program Files', 'Google/Chrome/Application/chrome.exe'),
       path.join(process.env['ProgramFiles(x86)'] || 'C:/Program Files (x86)', 'Microsoft/Edge/Application/msedge.exe'),
       path.join(process.env.LOCALAPPDATA || '', 'Google/Chrome/Application/chrome.exe')
-    ] : ['/usr/bin/chromium', '/usr/bin/chromium-browser', '/usr/bin/google-chrome'];
+    ] : ['/usr/bin/chromium', '/usr/bin/chromium-browser', '/usr/bin/google-chrome', '/snap/bin/chromium'];
     const executable = process.env.IMPORTER_BROWSER || candidates.find((candidate) => existsSync(candidate));
     if (!executable) {
       await shutdown();
       throw new Error('Set IMPORTER_BROWSER to the Chrome, Edge, or Chromium executable on this arcade.');
     }
-    browser = spawn(executable, [
-      `--app=${url}`, `--user-data-dir=${path.join(os.homedir(), '.scratch-importer-browser')}`,
-      '--no-first-run', '--disable-background-mode'
-    ], {stdio: 'ignore'});
-    browser.once('error', (error) => { console.error(error.message); void shutdown(); });
+    browser = spawn(executable, getBrowserArguments(url, path.join(os.homedir(), '.scratch-importer-browser')), {
+      stdio: ['ignore', 'ignore', 'inherit']
+    });
+    browser.once('error', (error) => {
+      console.error(`Could not start the browser: ${error.message}`);
+      process.exitCode = 1;
+      void shutdown();
+    });
     browser.once('exit', () => { void shutdown(); });
   }
 };

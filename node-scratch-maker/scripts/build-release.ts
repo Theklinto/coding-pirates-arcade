@@ -1,4 +1,4 @@
-import {chmod, copyFile, mkdir, mkdtemp, readFile, readdir, rename, rm, writeFile} from 'node:fs/promises';
+import {chmod, copyFile, cp, mkdir, mkdtemp, readFile, readdir, rename, rm, writeFile} from 'node:fs/promises';
 import {createRequire} from 'node:module';
 import path from 'node:path';
 import {fileURLToPath, pathToFileURL} from 'node:url';
@@ -24,13 +24,15 @@ No Git, Yarn, TypeScript, or dependency installation is needed on the arcade.
    Do not copy both platform examples. These examples define the importer tool,
    not the Scratch games collection; no game metadata is created automatically.
 
-For a server-only session: node scripts/importer.mjs
+The release opens the website automatically in browser kiosk mode (--kiosk).
+For a server-only session: node scripts/importer.mjs --no-browser
 For the CLI: node scripts/package-project.mjs <project-url-or-id>
 The UI is served at http://127.0.0.1:4173 (override with IMPORTER_PORT).
 Closing the importer returns to Pegasus. Restart Pegasus if new games do not appear.
 
 To upgrade, stop the importer and replace the program files, preserving .env
-and your game files. Do not extract over an active import.
+and your game files. Include the complete scripts directory and its scaffolding
+subdirectory. Do not extract over an active import.
 `;
 
 const windowsLauncher = '@echo off\r\nsetlocal\r\ncd /d "%~dp0"\r\nnode "%~dp0scripts\\importer.mjs" --open %*\r\nexit /b %errorlevel%\r\n';
@@ -93,6 +95,10 @@ export const buildRelease = async (outputDirectory = path.join(projectRoot, 'dis
       format: 'esm', target: 'node20', define: {RELEASE_BUILD: 'true'},
       external: ['esbuild'], minifySyntax: true, metafile: true, legalComments: 'linked',
       banner: {js: "import {createRequire as releaseRequire} from 'node:module';\nimport {fileURLToPath as releaseFilePath} from 'node:url';\nimport {dirname as releaseDirname} from 'node:path';\nconst require = releaseRequire(import.meta.url);\nconst __filename = releaseFilePath(import.meta.url);\nconst __dirname = releaseDirname(__filename);"}
+    });
+    await cp(path.dirname(require.resolve('@turbowarp/packager')), path.join(stage, 'scripts'), {
+      recursive: true,
+      filter: (source) => path.basename(source) !== 'packager.js'
     });
     for (const filename of ['index.html', 'style.css', 'assets/pirates_8bit_transparent.png']) {
       await copyFile(path.join(projectRoot, 'web', filename), path.join(webDirectory, filename));

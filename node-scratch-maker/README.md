@@ -22,14 +22,14 @@ yarn build:release
 
 Ship `dist/scratch-importer-1.0.0.zip` (the name follows the package version). It contains the bundled importer and CLI, precompiled browser UI, pixel font, pirate logo, configuration template, Windows/Linux launchers, Pegasus examples, and third-party license notices. It does not contain the repository, tests, TypeScript tooling, `node_modules`, your `.env`, or installed games.
 
-The arcade needs Node.js 20.12 or newer, Chrome/Edge/Chromium, and internet access for Scratch downloads. Git, Yarn, dependency installation, and compilation are not needed on the arcade. Node and the browser are not embedded; the same ZIP can be used on Windows or Linux with a compatible local Node installation.
+The arcade needs Node.js 20.12 or newer, Chrome/Edge/Chromium, and internet access for Scratch downloads. Git, Yarn, dependency installation, and compilation are not needed on the arcade. Node and the browser are not embedded; the same ZIP can be used on Windows or Linux with a compatible local Node installation. Keep the complete release directory together: `scripts/scaffolding` and the other runtime companion files are required to generate games.
 
 1. Extract the ZIP into a writable directory, for example `C:/Arcade/ScratchImporter` or `/opt/scratch-importer`.
 2. Copy `.env.example` to `.env` there. Configure the existing Pegasus directory and collection; set `IMPORTER_LANGUAGE=da` for Danish. Prefer absolute game-directory paths.
 3. Run `start.cmd` on Windows or `sh start.sh` on Linux. Both open the UI and remain running until it closes. Use an absolute Node path in the launcher if Pegasus does not inherit Node on its PATH.
 4. To launch from Pegasus, copy only the appropriate `pegasus-windows.example.txt` or `pegasus-linux.example.txt` to `metadata.pegasus.txt` in the release directory, then add that directory to Pegasus's game directories. This manually adds the importer tool; it does not create or alter the Scratch games collection.
 
-For a server-only session, run `node scripts/importer.mjs`. The release reads `.env` from its own directory even when Pegasus starts it elsewhere. The bundled CLI is available as `node scripts/package-project.mjs <project-url-or-id>`.
+The release opens the website automatically in browser kiosk mode (`--kiosk`), including when started directly with `node scripts/importer.mjs`. For a server-only session, run `node scripts/importer.mjs --no-browser`. The release reads `.env` from its own directory even when Pegasus starts it elsewhere. The bundled CLI is available as `node scripts/package-project.mjs <project-url-or-id>`.
 
 For upgrades, stop the importer, replace program files, and preserve the arcade's `.env`, existing metadata, and installed games. No automatic updater or Pegasus restart is included. Physical arcade controls and returning from the browser still need checking on the target machine.
 
@@ -75,7 +75,7 @@ Both CLI and web imports use a `.scratch-import.lock` in the Pegasus directory (
 yarn importer:launch
 ```
 
-This starts the service and opens Chrome/Edge/Chromium in a dedicated app window and separate browser profile. It detects common Windows/Linux browser installations; set `IMPORTER_BROWSER` if needed. The Back to arcade button closes the importer window and service. Closing the window also ends the service after any active import finishes. Do not run the standalone service and launcher on the same port at the same time.
+This starts the service and opens the website in Chrome/Edge/Chromium kiosk mode (`--kiosk`) with a separate browser profile. It detects common Windows/Linux browser installations, including Snap Chromium; set `IMPORTER_BROWSER` if needed. Browser startup errors are shown in the terminal. The Back to arcade button closes the importer window and service. Closing the window also ends the service after any active import finishes. Do not run the standalone service and launcher on the same port at the same time.
 
 Add a tools entry manually in a separate Pegasus metadata file. For example, replace `C:/arcade/node-scratch-maker` with the actual installation path and use an absolute Node executable path if it is not on Pegasus's PATH:
 
