@@ -1,0 +1,96 @@
+@font-face {
+	font-family: Arcade;
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url('/font-arcade.woff2') format('woff2');
+}
+
+:root {
+	color-scheme: dark;
+	--background: #080808;
+	--white: #f5f5e9;
+	--cyan: #65e8ed;
+	--yellow: #ffe45e;
+	--red: #ff7272;
+	--line: #454545;
+	--muted: #a0a0a0;
+}
+
+* { box-sizing: border-box; letter-spacing: 0; }
+[hidden] { display: none !important; }
+body { margin: 0; min-height: 100dvh; background: var(--background); color: var(--white); font-family: Arcade, monospace; font-size: 11px; line-height: 1.8; font-synthesis: none; }
+button, input { font: inherit; color: inherit; border-radius: 0; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { min-height: 48px; border: 1px solid var(--line); background: transparent; cursor: pointer; touch-action: manipulation; }
+button:hover { border-color: var(--cyan); color: var(--cyan); }
+button:disabled { color: var(--muted); border-color: var(--line); cursor: wait; }
+button:focus, a:focus { outline: 2px solid var(--yellow); outline-offset: 3px; }
+button:focus { color: var(--background); background: var(--yellow); border-color: var(--yellow); }
+input:focus { outline: 2px solid var(--yellow); outline-offset: 3px; }
+svg { width: 20px; height: 20px; flex-shrink: 0; pointer-events: none; }
+.topbar { width: min(560px, calc(100% - 32px)); margin: 18px auto 0; display: grid; grid-template-columns: 48px minmax(0, 1fr) 48px; align-items: center; gap: 10px; }
+.brand { grid-column: 2; justify-self: center; display: block; line-height: 0; }
+.brand img { display: block; width: 128px; height: 128px; object-fit: contain; image-rendering: pixelated; }
+.connection { grid-column: 1 / -1; grid-row: 2; display: flex; align-items: center; justify-content: center; gap: 9px; color: var(--muted); text-transform: uppercase; text-align: center; font-size: 9px; overflow-wrap: anywhere; }
+#connection-dot { width: 6px; height: 6px; flex-shrink: 0; background: var(--red); }
+#connection-dot.ready { background: var(--cyan); }
+#exit { grid-column: 3; grid-row: 1; }
+main { width: min(560px, calc(100% - 32px)); margin: 20px auto 36px; }
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 28px; padding-bottom: 12px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 9px; text-transform: uppercase; }
+.steps span { display: flex; justify-content: center; gap: 10px; }
+.steps b { font-weight: 400; }
+.steps [aria-current] { color: var(--cyan); }
+.entry-layout { display: block; }
+h1 { margin: 0 0 26px; color: var(--white); text-align: center; font-size: 18px; font-weight: 400; line-height: 1.8; text-transform: uppercase; overflow-wrap: anywhere; }
+.entry-tool { width: min(100%, 432px); margin: auto; }
+label { display: block; margin-bottom: 12px; color: var(--cyan); font-size: 10px; text-transform: uppercase; }
+.input-wrap { display: flex; align-items: center; gap: 12px; }
+input { width: 100%; min-width: 0; height: 56px; border: 1px solid var(--white); background: transparent; padding: 12px; font-size: 18px; }
+input::placeholder { color: #686868; }
+.icon-button { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; flex: 0 0 48px; }
+.keypad { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.keypad button { height: 48px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.keypad button[data-key='clear'] { font-size: 10px; text-transform: uppercase; }
+.keypad button[data-key='delete'] { color: var(--red); }
+.keypad button[data-key='delete']:focus { color: var(--background); }
+.keypad.full { grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 5px; }
+.keypad.full button { height: 44px; min-height: 44px; font-size: 10px; }
+.keypad.full button[data-key='clear'], .keypad.full button[data-key='delete'] { grid-column: span 5; }
+.error { min-height: 18px; margin: 12px 0; color: var(--red); font-size: 9px; line-height: 1.9; overflow-wrap: anywhere; }
+.primary { display: inline-flex; align-items: center; justify-content: center; gap: 16px; min-height: 52px; padding: 12px 16px; border-color: var(--cyan); color: var(--cyan); font-size: 11px; line-height: 1.8; text-transform: uppercase; }
+.primary:hover { background: var(--cyan); color: var(--background); }
+.primary:focus { background: var(--yellow); color: var(--background); border-color: var(--yellow); }
+.wide { width: 100%; margin-top: 16px; justify-content: space-between; }
+.text-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 10px 12px; border-color: transparent; font-size: 10px; text-transform: uppercase; }
+.confirm-layout { display: grid; gap: 24px; margin-top: 20px; text-align: center; }
+.project-art { width: min(100%, 320px); margin: auto; }
+.project-art img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: contain; background: #171717; image-rendering: pixelated; }
+figcaption { padding-top: 10px; color: var(--muted); font-size: 9px; overflow-wrap: anywhere; }
+.eyebrow { margin: 0 0 12px; color: var(--yellow); font-size: 10px; line-height: 1.8; }
+.project-info h1 { margin-bottom: 14px; }
+.subtitle { margin: 0 0 22px; color: var(--muted); font-size: 11px; line-height: 2; overflow-wrap: anywhere; }
+.result { max-width: 432px; margin: 32px auto; text-align: center; }
+.result-symbol { display: grid; place-items: center; width: 56px; height: 56px; margin: 0 auto 24px; color: var(--cyan); }
+.result-symbol svg { width: 36px; height: 36px; }
+.result-symbol.busy svg { animation: spin 1.5s steps(8) infinite; }
+.result-symbol.failed { color: var(--red); }
+progress { appearance: none; width: 100%; height: 16px; margin: 8px 0 25px; padding: 3px; border: 1px solid var(--cyan); border-radius: 0; background: transparent; }
+progress::-webkit-progress-bar { background: transparent; }
+progress::-webkit-progress-value { background: var(--cyan); }
+progress::-moz-progress-bar { background: var(--cyan); }
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (max-width: 480px) {
+	.topbar { margin-top: 12px; }
+	.brand img { width: 112px; height: 112px; }
+	.connection { font-size: 8px; }
+	main { margin-top: 18px; }
+	.steps { margin-bottom: 24px; font-size: 8px; }
+	.steps span { gap: 6px; }
+	h1 { font-size: 13px; }
+	label { font-size: 9px; }
+	input { font-size: 15px; }
+	.primary { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } }

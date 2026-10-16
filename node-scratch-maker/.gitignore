@@ -3,7 +3,13 @@ npm-debug.log*
 *.log
 .env
 .env.*
+!.env.example
+arcade/
 *.html
+!web/index.html
+playwright-report/
+test-results/
+dist/
 .DS_Store
 Thumbs.db
 .vscode/

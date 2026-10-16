@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080808">
+  <title>Add a Game | Pirates Arcade</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Pirates Arcade home" data-i18n-aria-label="home"><img src="/assets/pirates_8bit_transparent.png" alt="Coding Pirates" width="128" height="128"></a>
+    <div class="connection"><span id="connection-dot"></span><span id="collection">Connecting</span></div>
+    <button id="exit" class="icon-button" title="Back to arcade" aria-label="Back to arcade" data-i18n-title="backToArcade" data-i18n-aria-label="backToArcade" hidden><i data-lucide="log-out"></i></button>
+  </header>
+  <main>
+    <nav class="steps" aria-label="Import progress" data-i18n-aria-label="importProgress"><span data-step="entry" aria-current="step"><b>01</b><span data-i18n="stepProject">Project</span></span><span data-step="confirm"><b>02</b><span data-i18n="stepConfirm">Confirm</span></span><span data-step="result"><b>03</b><span data-i18n="stepArcade">Arcade</span></span></nav>
+    <section id="entry" aria-labelledby="entry-title">
+      <div class="entry-layout">
+        <h1 id="entry-title" data-i18n="entryTitle">Add / update game</h1>
+        <div class="entry-tool">
+          <label for="project-input" data-i18n="projectInput">Scratch project ID or URL</label>
+          <div class="input-wrap"><input id="project-input" type="text" inputmode="numeric" maxlength="300" placeholder="123456789" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="entry-error"><button id="keyboard-mode" class="icon-button" aria-label="Switch to full keyboard" title="Switch to full keyboard" aria-pressed="false"><i data-lucide="keyboard"></i></button></div>
+          <p id="entry-error" class="error" role="alert"></p>
+          <div id="keyboard" class="keypad" role="group" aria-label="On-screen keyboard" data-i18n-aria-label="onScreenKeyboard"></div>
+          <button id="preview" class="primary wide"><span data-i18n="findGame">Find my game</span><i data-lucide="arrow-right"></i></button>
+        </div>
+      </div>
+    </section>
+    <section id="confirm" aria-labelledby="confirm-title" hidden>
+      <button id="back" class="text-button"><i data-lucide="arrow-left"></i><span data-i18n="back">Back</span></button>
+      <div class="confirm-layout"><figure class="project-art"><img id="thumbnail" alt=""><figcaption id="project-number"></figcaption></figure><div class="project-info"><p id="project-type" class="eyebrow"></p><h1 id="confirm-title"></h1><p id="author" class="subtitle"></p><p id="confirm-error" class="error" role="alert"></p><button id="install" class="primary"><i data-lucide="plus"></i><span data-i18n="addGame">Add game</span></button></div></div>
+    </section>
+    <section id="result" class="result" aria-labelledby="result-title" hidden>
+      <div id="result-symbol" class="result-symbol"><i data-lucide="loader-circle"></i></div><p id="result-eyebrow" class="eyebrow" data-i18n="importingGame">IMPORTING</p><h1 id="result-title" data-i18n="progressBuilding">Building your game</h1><p id="result-description" class="subtitle" role="status" aria-live="polite"></p><progress id="progress" max="100" value="0" aria-label="Import progress" data-i18n-aria-label="importProgress"></progress><div id="result-actions" class="actions" hidden><button id="again" class="primary"><i data-lucide="plus"></i><span data-i18n="addAnother">Add another game</span></button><button id="retry" class="text-button" hidden><i data-lucide="rotate-ccw"></i><span data-i18n="retry">Try again</span></button></div>
+    </section>
+  </main>
+</body>
+</html>

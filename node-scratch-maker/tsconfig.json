@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "noEmit": true,
+        "allowImportingTsExtensions": true,
+        "verbatimModuleSyntax": true,
+        "types": ["node"],
+        "erasableSyntaxOnly": true,
+        "strict": true,
+        "allowJs": false,
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noUncheckedIndexedAccess": true,
+        "noImplicitThis": true
+    },
+    "include": ["./scripts/**/*.ts", "./web/**/*.ts", "./locales/**/*.ts", "./browser-tests/**/*.ts", "./playwright.config.ts"],
+    "exclude": []
+}
